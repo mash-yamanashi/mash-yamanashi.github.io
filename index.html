@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>あつしスタジオ</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&display=swap">
+<style>
+  :root{
+    --paper:#F4F2EA;
+    --surface:#FFFFFF;
+    --ink:#211F2B;
+    --ink-soft:#5C596A;
+    --indigo:#37456B;
+    --plum:#7C4B63;
+    --line:#DBD6C8;
+    --shadow: 0 1px 0 rgba(33,31,43,0.06);
+    --radius: 2px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#17171D;
+      --surface:#1F2028;
+      --ink:#EDEAE1;
+      --ink-soft:#A9A5B2;
+      --indigo:#93A6D6;
+      --plum:#D096AC;
+      --line:#34323F;
+      --shadow: 0 1px 0 rgba(0,0,0,0.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#17171D;
+    --surface:#1F2028;
+    --ink:#EDEAE1;
+    --ink-soft:#A9A5B2;
+    --indigo:#93A6D6;
+    --plum:#D096AC;
+    --line:#34323F;
+    --shadow: 0 1px 0 rgba(0,0,0,0.3);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Zen Kaku Gothic New", "Hiragino Sans", "Noto Sans JP", sans-serif;
+    font-weight:400;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;}
+  [hidden]{display:none!important;}
+
+  a{color:inherit;}
+  h1,h2,h3{font-family:"Shippori Mincho", serif; font-weight:600; text-wrap:balance; margin:0;}
+  .eyebrow{
+    font-family:"Cormorant Garamond", serif;
+    font-style:italic;
+    font-size:0.95rem;
+    letter-spacing:0.14em;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:0.6em;
+  }
+  .eyebrow .kanji{
+    font-family:"Shippori Mincho", serif;
+    font-style:normal;
+    font-size:1.05rem;
+    color:var(--indigo);
+    border:1px solid var(--line);
+    width:1.9em;height:1.9em;
+    display:inline-flex;align-items:center;justify-content:center;
+    border-radius:50%;
+    flex:none;
+  }
+
+  .wrap{max-width:1040px; margin:0 auto; padding-inline:clamp(20px, 5vw, 56px);}
+
+  /* header / nav */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid transparent;
+    transition:border-color .25s ease;
+  }
+  header.scrolled{border-bottom-color:var(--line);}
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:24px; padding-block:16px;
+  }
+  .brand{
+    font-family:"Shippori Mincho", serif;
+    font-size:1.25rem;
+    letter-spacing:0.06em;
+  }
+  .brand small{
+    display:block;
+    font-family:"Cormorant Garamond", serif; font-style:italic;
+    font-size:0.7rem; letter-spacing:0.18em; color:var(--ink-soft);
+    margin-top:2px;
+  }
+  nav.links{
+    display:flex; gap:clamp(14px,2.4vw,28px);
+    overflow-x:auto; scrollbar-width:none;
+    font-size:0.86rem; letter-spacing:0.02em;
+  }
+  nav.links::-webkit-scrollbar{display:none;}
+  nav.links a{
+    white-space:nowrap; text-decoration:none; color:var(--ink-soft);
+    padding-block:4px; border-bottom:1px solid transparent;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  nav.links a:hover, nav.links a.active{color:var(--ink); border-color:var(--indigo);}
+  .contact-pill{
+    flex:none;
+    border:1px solid var(--ink);
+    padding:8px 18px;
+    font-size:0.82rem;
+    letter-spacing:0.04em;
+    text-decoration:none;
+    color:var(--ink);
+    transition:background .2s ease, color .2s ease;
+    white-space:nowrap;
+  }
+  .contact-pill:hover{background:var(--ink); color:var(--paper);}
+
+  /* hero */
+  .hero{padding-block:clamp(56px,10vw,96px) clamp(40px,7vw,72px);}
+  .hero .eyebrow{margin-bottom:22px;}
+  .hero h1{
+    font-size:clamp(2rem, 4.6vw, 3.1rem);
+    max-width:14ch;
+  }
+  .hero .thesis{
+    margin-top:20px;
+    max-width:46ch;
+    font-size:1.05rem;
+    color:var(--ink-soft);
+  }
+  .discipline-index{
+    margin-top:44px;
+    border-top:1px solid var(--line);
+    padding-top:22px;
+    display:flex; flex-wrap:wrap;
+    gap:10px 0;
+  }
+  .discipline-index a{
+    text-decoration:none;
+    display:flex; align-items:baseline; gap:10px;
+    padding:9px 22px 9px 0;
+    font-size:0.92rem;
+    color:var(--ink-soft);
+  }
+  .discipline-index a:hover{color:var(--indigo);}
+  .discipline-index .num{
+    font-family:"Cormorant Garamond", serif;
+    font-size:0.78rem;
+    color:var(--line);
+  }
+
+  /* service sections */
+  .service{
+    padding-block:clamp(48px,8vw,80px);
+    border-top:1px solid var(--line);
+  }
+  .service-head{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:32px;
+    align-items:start;
+  }
+  .service-head h2{font-size:clamp(1.5rem,3vw,2.1rem); margin-top:14px;}
+  .philosophy{margin-top:14px; color:var(--ink-soft); max-width:40ch;}
+  .menu-list{margin:6px 0 0; padding:0; list-style:none;}
+  .menu-list li{
+    padding-block:10px;
+    border-bottom:1px solid var(--line);
+    font-size:0.92rem;
+    display:flex; justify-content:space-between; gap:12px;
+    color:var(--ink-soft);
+  }
+  .menu-list li:first-child{border-top:1px solid var(--line);}
+  .menu-list li span:first-child{color:var(--ink);}
+  .menu-list li .mk{font-family:"Cormorant Garamond", serif; font-style:italic; color:var(--line);}
+
+  .tiles{
+    margin-top:clamp(28px,5vw,44px);
+    display:grid;
+    gap:18px;
+  }
+  .tile{
+    position:relative;
+    border:1px solid var(--line);
+    overflow:hidden;
+    background:var(--surface);
+  }
+  .tile .art{
+    display:flex; align-items:center; justify-content:center;
+    width:100%; height:100%;
+  }
+  .tile .art svg{width:34%; max-width:64px; opacity:0.85;}
+  .tile figcaption{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:10px 14px;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    background:linear-gradient(0deg, color-mix(in srgb, var(--surface) 88%, transparent), transparent);
+  }
+  figure{margin:0;}
+
+  .tiles.g3{grid-template-columns:repeat(3,1fr);}
+  .tiles.g4{grid-template-columns:repeat(4,1fr);}
+  .ratio-43{aspect-ratio:4/3;}
+  .ratio-11{aspect-ratio:1/1;}
+  .ratio-34{aspect-ratio:3/4;}
+  .ratio-169{aspect-ratio:16/9;}
+  .ratio-card{aspect-ratio:91/55;}
+
+  .tile--web{background:linear-gradient(150deg, color-mix(in srgb, var(--indigo) 20%, var(--surface)), color-mix(in srgb, var(--indigo) 4%, var(--surface)));}
+  .tile--thumb{background:linear-gradient(150deg, color-mix(in srgb, var(--plum) 22%, var(--surface)), color-mix(in srgb, var(--plum) 5%, var(--surface)));}
+  .tile--card{background:linear-gradient(150deg, color-mix(in srgb, var(--ink) 14%, var(--surface)), color-mix(in srgb, var(--ink) 3%, var(--surface)));}
+
+  .tile--web .art svg{color:var(--indigo);}
+  .tile--thumb .art svg{color:var(--plum);}
+  .tile--card .art svg{color:var(--ink-soft);}
+
+  /* footer */
+  footer{
+    border-top:1px solid var(--line);
+    padding-block:clamp(48px,8vw,72px) 40px;
+  }
+  footer h2{font-size:clamp(1.5rem,3.4vw,2.2rem); max-width:16ch;}
+  .footer-grid{
+    margin-top:32px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:24px;
+    align-items:end;
+  }
+  .contact-list{list-style:none; margin:0; padding:0; font-size:0.94rem; color:var(--ink-soft);}
+  .contact-list li{padding-block:6px;}
+  .contact-list a{text-decoration:none; border-bottom:1px solid var(--line);}
+  .contact-list a:hover{border-color:var(--indigo); color:var(--indigo);}
+  .note{
+    margin-top:28px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    max-width:60ch;
+  }
+  .fineprint{margin-top:18px; font-size:0.74rem; color:var(--ink-soft); opacity:0.7;}
+
+  @media (max-width:760px){
+    .service-head{grid-template-columns:1fr;}
+    .tiles.g3, .tiles.g4{grid-template-columns:repeat(2,1fr);}
+    .footer-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:480px){
+    .tiles.g3, .tiles.g4{grid-template-columns:1fr;}
+  }
+
+  :focus-visible{outline:2px solid var(--indigo); outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none!important;}
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="wrap nav-row">
+    <a href="#top" class="brand" style="text-decoration:none;">あつし
+      <small>MULTI-DISCIPLINE CREATOR</small>
+    </a>
+    <nav class="links" id="nav-links">
+      <a href="#web" data-nav>HP制作</a>
+      <a href="#thumbnail" data-nav>画像編集</a>
+      <a href="#card" data-nav>名刺作成</a>
+    </nav>
+    <a class="contact-pill" href="#contact">お問い合わせ</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero wrap">
+    <p class="eyebrow"><span class="kanji">總</span>PORTFOLIO — 3 DISCIPLINES</p>
+    <h1>画面でも、紙でも、<br>最初の一目を。</h1>
+    <p class="thesis">
+      サイトのトップページ、動画のサムネイル、手渡す名刺。媒体は違っても、見た瞬間に伝わるデザインを届けます。
+    </p>
+    <div class="discipline-index">
+      <a href="#web"><span class="num">01</span>HP・サイト制作</a>
+      <a href="#thumbnail"><span class="num">02</span>画像編集・サムネイル制作</a>
+      <a href="#card"><span class="num">03</span>名刺デザイン</a>
+    </div>
+  </section>
+
+  <!-- 01 WEB -->
+  <section class="service" id="web">
+    <div class="wrap">
+      <div class="service-head">
+        <div>
+          <p class="eyebrow"><span class="kanji">作</span>WEB DESIGN — 01</p>
+          <h2>HP・サイト制作</h2>
+          <p class="philosophy">ブランドの第一印象を、迷わせない設計でかたちにします。表示速度・導線・更新のしやすさまで含めて「使われ続けるサイト」をつくります。</p>
+        </div>
+        <ul class="menu-list">
+          <li><span>コーポレートサイト制作</span><span class="mk">i</span></li>
+          <li><span>ポートフォリオ・LP制作</span><span class="mk">ii</span></li>
+          <li><span>ECサイト構築</span><span class="mk">iii</span></li>
+          <li><span>既存サイトの保守・リニューアル</span><span class="mk">iv</span></li>
+        </ul>
+      </div>
+      <div class="tiles g3">
+        <figure class="tile ratio-43 tile--web">
+          <div class="art"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="9" width="38" height="30" rx="2"/><line x1="5" y1="16" x2="43" y2="16"/><circle cx="10" cy="12.5" r="1"/><circle cx="14" cy="12.5" r="1"/><circle cx="18" cy="12.5" r="1"/></svg></div>
+          <figcaption>個人事業主向けコーポレートサイト</figcaption>
+        </figure>
+        <figure class="tile ratio-43 tile--web">
+          <div class="art"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="9" width="38" height="30" rx="2"/><line x1="5" y1="16" x2="43" y2="16"/><circle cx="10" cy="12.5" r="1"/><circle cx="14" cy="12.5" r="1"/><circle cx="18" cy="12.5" r="1"/></svg></div>
+          <figcaption>写真スタジオのポートフォリオLP</figcaption>
+        </figure>
+        <figure class="tile ratio-43 tile--web">
+          <div class="art"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="9" width="38" height="30" rx="2"/><line x1="5" y1="16" x2="43" y2="16"/><circle cx="10" cy="12.5" r="1"/><circle cx="14" cy="12.5" r="1"/><circle cx="18" cy="12.5" r="1"/></svg></div>
+          <figcaption>飲食店の予約導線リニューアル</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 THUMBNAIL / IMAGE EDITING -->
+  <section class="service" id="thumbnail">
+    <div class="wrap">
+      <div class="service-head">
+        <div>
+          <p class="eyebrow"><span class="kanji">惹</span>IMAGE EDITING — 02</p>
+          <h2>画像編集・サムネイル制作</h2>
+          <p class="philosophy">スクロールする指を止める、1枚をつくります。文字・配色・構図まで、クリックされるための設計をします。</p>
+        </div>
+        <ul class="menu-list">
+          <li><span>YouTubeサムネイル制作</span><span class="mk">i</span></li>
+          <li><span>Instagram投稿・リール用画像</span><span class="mk">ii</span></li>
+          <li><span>ブログ・記事アイキャッチ画像</span><span class="mk">iii</span></li>
+          <li><span>文字入れ・配色・量産対応</span><span class="mk">iv</span></li>
+        </ul>
+      </div>
+      <div class="tiles g3">
+        <figure class="tile ratio-169 tile--thumb">
+          <div class="art"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="6" y="10" width="36" height="28" rx="2"/><circle cx="16" cy="19" r="3"/><polyline points="9,33 19,23 26,29 39,17"/></svg></div>
+          <figcaption>YouTube動画サムネイル</figcaption>
+        </figure>
+        <figure class="tile ratio-169 tile--thumb">
+          <div class="art"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="6" y="10" width="36" height="28" rx="2"/><circle cx="16" cy="19" r="3"/><polyline points="9,33 19,23 26,29 39,17"/></svg></div>
+          <figcaption>Instagramリール用カバー画像</figcaption>
+        </figure>
+        <figure class="tile ratio-169 tile--thumb">
+          <div class="art"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="6" y="10" width="36" height="28" rx="2"/><circle cx="16" cy="19" r="3"/><polyline points="9,33 19,23 26,29 39,17"/></svg></div>
+          <figcaption>ブログ記事のアイキャッチ画像</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 BUSINESS CARD -->
+  <section class="service" id="card">
+    <div class="wrap">
+      <div class="service-head">
+        <div>
+          <p class="eyebrow"><span class="kanji">交</span>BUSINESS CARD — 03</p>
+          <h2>名刺デザイン・制作</h2>
+          <p class="philosophy">手渡す一枚に、名前以上の情報を込めます。ロゴ・肩書き・連絡先を、迷いなく届く配置に整えます。</p>
+        </div>
+        <ul class="menu-list">
+          <li><span>名刺デザイン(縦型・横型)</span><span class="mk">i</span></li>
+          <li><span>ロゴ・アイコン配置</span><span class="mk">ii</span></li>
+          <li><span>QRコード入りデザイン</span><span class="mk">iii</span></li>
+          <li><span>印刷用データ入稿サポート</span><span class="mk">iv</span></li>
+        </ul>
+      </div>
+      <div class="tiles g3">
+        <figure class="tile ratio-card tile--card">
+          <div class="art"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="13" width="38" height="22" rx="2"/><circle cx="15" cy="24" r="4"/><line x1="23" y1="20" x2="37" y2="20"/><line x1="23" y1="26" x2="33" y2="26"/></svg></div>
+          <figcaption>個人事業主向名刺デザイン</figcaption>
+        </figure>
+        <figure class="tile ratio-card tile--card">
+          <div class="art"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="13" width="38" height="22" rx="2"/><circle cx="15" cy="24" r="4"/><line x1="23" y1="20" x2="37" y2="20"/><line x1="23" y1="26" x2="33" y2="26"/></svg></div>
+          <figcaption>QRコード入り名刺</figcaption>
+        </figure>
+        <figure class="tile ratio-card tile--card">
+          <div class="art"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="13" width="38" height="22" rx="2"/><circle cx="15" cy="24" r="4"/><line x1="23" y1="20" x2="37" y2="20"/><line x1="23" y1="26" x2="33" y2="26"/></svg></div>
+          <figcaption>ショップ・店舗用ショップカード</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="wrap">
+      <p class="eyebrow"><span class="kanji">結</span>CONTACT</p>
+      <h2>ご依頼・お問い合わせ</h2>
+      <div class="footer-grid">
+        <ul class="contact-list">
+          <li>Mail — <a href="mailto:clover.mitsui.a@gmail.com">clover.mitsui.a@gmail.com</a></li>
+          <li>Instagram — <a href="#">@your_handle</a></li>
+          <li>X（Twitter）— <a href="#">@your_handle</a></li>
+        </ul>
+        <p style="max-width:34ch; color:var(--ink-soft); font-size:0.92rem;">ジャンルをまたいだご相談も歓迎です。まずは軽くお話しさせてください。</p>
+      </div>
+      <p class="note">
+        ※このページは構成テンプレートです。実績タイトル・SNSリンクはすべてサンプルです。実際の制作物の画像やご自身の実績に差し替えてお使いください。
+      </p>
+      <p class="fineprint">© 2026 Atsushi — HP制作 / 画像編集(サユネイル制作) / 名刺作成</p>
+    </div>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var header = document.getElementById('site-header');
+  var onScroll = function(){
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav-links a'));
+  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if ('IntersectionObserver' in window && sections.length){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          var id = '#' + entry.target.id;
+          links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === id); });
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
